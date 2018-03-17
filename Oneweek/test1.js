@@ -1,3 +1,5 @@
+//按照阮一峰js教程学习
+
 /*
 var message = "Hello world";
 var meaasgeAsBoolean = Boolean(message)
@@ -335,3 +337,77 @@ b64Encode('你好') // "JUU0JUJEJUEwJUU1JUE1JUJE"
 b64Decode('JUU0JUJEJUEwJUU1JUE1JUJE') // "你好"   */
 
 /** 对象 */
+/*
+对象是js语言的核心概念 也是最重要的数据类型。
+对象是一组key-value的集合，是一种无序的复合数据集合。
+
+对象所有的键名都是字符串 ,ES6加入 Symbol值；（键名是数值的 会被自动转为字符串） + 如果键名不符合标识名的条件（比如第一个字符为数字，或者含有空格或运算符），且也不是数字，则必须加上引号，否则会报错。
+
+对象的每一个键名又称为“属性”（property），它的“键值”可以是任何数据类型。
+如果一个属性的 值 为 函数，通常把这个属性称为“方法”，它可以像函数那样调用。
+
+var obj = {
+    p: function(x){
+        return 2 * x;
+    }
+};
+
+console.log(obj.p(1));
+对象obj的属性p，就指向一个函数。
+
+如果属性的值还是一个对象，就形成了链式引用。
+
+var o1 = {};
+var o2 = {
+    bar: "Hello"
+};
+
+o1.foo = o2;    //属性可以动态创建，不必在对象声明时就指定。直接对obj对象的foo属性赋值，结果就在运行时创建了foo属性。
+console.log(o1.foo.bar);
+
+对象的属性之间用逗号分隔，最后一个属性后面可以加逗号（trailing comma），也可以不加。
+*/
+
+// === 对象的引用 ===
+// 如果不同的变量名指向同一个对象，那么它们都是这个对象的引用，也就是说指向同一个内存地址。修改其中一个变量，会影响到其他所有变量。
+/*
+var obj = {
+    p: 'hello world'
+};
+
+console.log(obj.p);
+console.log(obj['p']);
+*/
+
+var foo = 'bar';
+var obj = {
+    foo: 1,
+    bar: 2
+};
+
+console.log(obj.foo);
+console.log(obj['foo']);
+console.log(obj[foo]);
+
+// 请注意，如果使用方括号运算符，键名必须放在引号里面，否则会被当作变量处理。
+// 上面代码中，引用对象obj的foo属性时，如果使用点运算符，foo就是字符串；
+// 如果使用方括号运算符，但是不使用引号，那么foo就是一个变量，指向字符串bar。
+
+
+/*  数字键可以不加引号，因为会自动转成字符串。
+    注意，数值键名不能使用点运算符（因为会被当成小数点），只能使用方括号运算符。
+var obj = {
+    123: 'hello world'
+};
+
+obj.123 // 报错
+obj[123] // "hello world"
+*/
+
+
+
+
+
+
+
+
