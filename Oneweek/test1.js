@@ -463,4 +463,197 @@ for(var key in person){
 with (对象) {
     语句;
 }
+
+// 例一
+var obj = {
+  p1: 1,
+  p2: 2,
+};
+with (obj) {
+  p1 = 4;
+  p2 = 5;
+}
+// 等同于
+obj.p1 = 4;
+obj.p2 = 5;
+
+// 例二
+with (document.links[0]){
+  console.log(href);
+  console.log(title);
+  console.log(style);
+}
+// 等同于
+console.log(document.links[0].href);
+console.log(document.links[0].title);
+console.log(document.links[0].style);
+
+注意，如果with区块内部有变量的赋值操作，必须是当前对象已经存在的属性，否则会创造一个当前作用域的全局变量。
+但是因为无法判断变量是全局变量与否，只能留到运行时才能判断，运行速度不佳，所以建议不要使用with语句，可以考虑用一个临时变量代替
+
+var temp = obj1.obj2.obj3;
+console.log(temp.p1 + temp.p2);
 */
+
+/* === 数组 === */
+/*
+任何类型的数据，都可以放入数组。
+var arr = [
+  {a: 1},
+  [1, 2, 3],
+  function() {return true;}
+];
+
+arr[0] // Object {a: 1}
+arr[1] // [1, 2, 3]
+arr[2] // function (){return true;}
+// 上面数组arr的3个成员依次是对象、数组、函数。
+
+// 数组的元素还是数组，就形成了多维数组
+
+console.log(typeof [1,2,3]);    //object, 所以数组是一种特殊的对象
+
+var arr = ['a','b','c'];
+console.log(Object.keys(arr));  //数组的keys(键名)就是表示次序的整数
+
+// JavaScript 语言规定，对象的键名一律为字符串，
+// 所以，数组的键名其实也是字符串。之所以可以用数值读取，是因为非字符串的键名会被转为字符串。
+var arr = ['a', 'b', 'c'];
+
+arr['0'] // 'a'
+arr[0] // 'a'
+
+//对象有两种读取成员的方法：点结构（object.key）和方括号结构（object[key]）。但是，对于数值的键名，不能使用点结构。
+    var arr = [1, 2, 3];
+ // arr.0 // SyntaxError
+
+// length属性是可写的。如果人为设置一个小于当前成员个数的值，该数组的成员会自动减少到length设置的值。
+
+var arr = [ 'a', 'b', 'c' ];
+arr.length // 3
+
+arr.length = 2;
+console.log(arr); // ["a", "b"]
+
+// 上面代码表示，当数组的length属性设为2（即最大的整数键只能是1）那么整数键2（值为c）就已经不在数组中了，被自动删除了。
+
+// 清空数组的一个有效方法，就是将length属性设为0。
+
+var arr = [ 'a', 'b', 'c' ];
+2 in arr  // true
+'2' in arr // true
+4 in arr // false
+// 上面代码表明，数组存在键名为2的键。由于键名都是字符串，所以数值2会自动转成字符串
+
+注意，如果数组的某个位置是空位，in运算符返回false。
+
+var arr = [];
+arr[100] = 'a';
+
+100 in arr // true
+1 in arr // false
+// 上面代码中，数组arr只有一个成员arr[100]，其他位置的键名都会返回false。
+
+// for...in不仅会遍历数组所有的数字键，还会遍历非数字键.所以不推荐for...in遍历数组
+var arr = [1,2,3];
+arr.foo = 'doo';
+
+for(var k in arr){
+    console.log(k);
+}
+// 所以不推荐for...in遍历数组； 
+
+// 可以考虑 for循环或者while循环来遍历数组
+
+var colors = ['red','green','blue'];
+colors.forEach(function(color){
+    console.log(color);
+});
+
+// 当数组的某个位置是空元素，即两个逗号之间没有任何值，我们称该数组存在空位（hole）。
+var a = [1, , 1];
+a.length // 3
+// 上面代码表明，数组的空位不影响length属性。
+// 需要注意的是，如果最后一个元素后面有逗号，并不会产生空位。也就是说，有没有这个逗号，结果都是一样的。
+// 数组的空位是可以读取的，返回undefined。
+
+var a = [,,8,];
+console.log(a[0]);
+console.log(a.length);
+
+// 使用delete命令删除一个数组成员，会形成空位，并且不会影响length属性。
+// 也就是说，length属性不过滤空位。所以，使用length属性进行数组遍历，一定要非常小心
+delete a[2];
+console.log(a);
+console.log(a.length);
+
+// 数组的某个位置是空位，与某个位置是undefined，是不一样的。
+// 如果是空位，使用数组的forEach方法、for...in结构、以及Object.keys方法进行遍历，空位都会被跳过。
+// 如果某个位置是undefined，遍历的时候就不会被跳过。
+a.forEach(function(x,i){
+    console.log(i + '. ' + x);
+});// 不产生任何输出
+console.log('---------');
+
+for(var i in a){
+    console.log(i);
+}// 不产生任何输出
+
+console.log( Object.keys(a));
+
+a[1] = undefined;
+a.push('Haha');
+console.log(a);
+console.log(Object.keys(a));
+
+//类似数组的对象：如果一个对象的所有键名都是正整数或零，并且有length属性，那么这个对象就很像数组，语法上称为“类似数组的对象”（array-like object）。
+//对象obj没有数组的push方法，使用该方法就会报错。
+// 类似数组的对象”的根本特征，就是具有length属性。只要有length属性，就可以认为这个对象类似于数组。但是有一个问题，这种length属性不是动态值，不会随着成员的变化而变化。
+var obj = {
+    length: 0,
+};
+console.log(obj.length);
+obj[3] = 'haha';
+console.log(obj.length);    //为对象obj添加了一个数字键，但是length属性没变。这就说明了obj不是数组。
+console.log(obj);
+
+// 典型的“类似数组的对象”是函数的arguments对象，以及大多数 DOM 元素集，还有字符串
+//所以要仔细区分 数组 和 对象 
+
+//argument对象, 类似数组的对象
+function args(){
+    return arguments;
+}
+var arrayLike = args('a','b');
+console.log(arrayLike[0]);
+console.log(arrayLike.length);
+console.log(arrayLike instanceof Array);
+
+// DOM元素集， 类似数组的对象
+var elts = document.getElementsByTagName('h3');
+console.log(elts.length);
+console.log(elts instanceof Array);
+
+//字符串， 类似数组的对象
+'abc'[1] // 'b'
+'abc'.length // 3
+'abc' instanceof Array // false
+
+// 数组的slice方法可以将“类似数组的对象”变成真正的数组。
+// 除了转为真正的数组，“类似数组的对象”还有一个办法可以使用数组的方法，就是通过call()把数组的方法放到对象上面。
+
+// 这种方法比直接使用数组原生的forEach要慢, 最好还是先将“类似数组的对象”转为真正的数组，然后再直接调用数组的forEach方法。
+function args(){
+    return arguments;
+}
+var arrayLike = args('a','b');
+var arr = Array.prototype.slice.call(arrayLike);
+
+console.log(arr instanceof Array);
+
+arr.forEach(function(chr) { //然后再直接调用数组的forEach方法。
+    console.log(chr)
+});
+*/
+
+/** 函数 Function */
