@@ -379,15 +379,15 @@ console.log(obj.p);
 console.log(obj['p']);
 */
 
-var foo = 'bar';
-var obj = {
-    foo: 1,
-    bar: 2
-};
+// var foo = 'bar';
+// var obj = {
+//     foo: 1,
+//     bar: 2
+// };
 
-console.log(obj.foo);
-console.log(obj['foo']);
-console.log(obj[foo]);
+// console.log(obj.foo);
+// console.log(obj['foo']);
+// console.log(obj[foo]);
 
 // 请注意，如果使用方括号运算符，键名必须放在引号里面，否则会被当作变量处理。
 // 上面代码中，引用对象obj的foo属性时，如果使用点运算符，foo就是字符串；
@@ -404,10 +404,63 @@ obj.123 // 报错
 obj[123] // "hello world"
 */
 
+/* 属性的赋值：点运算符和方括号运算符，不仅可以用来读取值，还可以用来赋值。
+*  JavaScript 允许属性的“后绑定”, 即你可以在任意时刻新增属性，没必要在定义对象的时候，就定义好属性。
 
+var obj= {};
 
+obj.foo = 'hello';
+obj['bar'] = 2;
 
+console.log(obj['bar']);
+console.log(Object.keys(obj));
 
+delete obj.bar;     //注意，删除一个不存在的属性，delete不报错，而且返回true。只有一种情况，delete命令会返回false，那就是该属性存在，且不得删除。
+//需要注意的是，delete命令只能删除对象本身的属性，无法删除继承的属性
+console.log(Object.keys(obj));
 
+// in运算符用于检查对象是否包含某个属性（注意，检查的是键名，不是键值），如果包含就返回true，否则返回false。
 
+// for...in循环用来遍历一个对象的全部属性。
 
+var obj = {a:1, b:2, c:3};
+for(var i in obj){
+    console.log(obj[i]);
+}
+    
+//----------
+
+var obj ={
+    x:1,
+    y:2
+};
+
+var props = [];
+var i = 0;
+for(var p in obj){
+    props[i++] = p;
+}
+
+console.log(props);
+
+// for...in循环有两个使用注意点。
+//     它遍历的是对象所有可遍历（enumerable）的属性，会跳过不可遍历的属性。
+//     它不仅遍历对象自身的属性，还遍历继承的属性。
+
+// 对象都继承了toString属性(是不可遍历的)，但是for...in循环不会遍历到这个属性。
+
+// 一般情况下，都是只想遍历对象自身的属性，所以使用for...in的时候，应该结合使用hasOwnProperty方法，在循环内部判断一下，某个属性是否为对象自身的属性。
+var person = {name:'Mr.Zhang'};
+for(var key in person){
+    if(person.hasOwnProperty(key)){
+        console.log(key);
+    }
+}
+*/
+
+/* With 语句 它的作用是操作同一个对象的多个属性时，提供一些书写的方便。
+
+with (对象) {
+    语句;
+}
+*/
