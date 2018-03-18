@@ -904,7 +904,113 @@ storeData(tmp);
  * 不建议使用
  */
 
+/** 错误处理机制 */
+/*
+// 注意：null转为数值时为0，而undefined转为数值时为NaN。
+// 总结
+// 以上这6种派生错误，连同原始的Error对象，都是构造函数。开发者可以使用它们，手动生成错误对象的实例。这些构造函数都接受一个函数，代表错误提示信息（message）。
+
+// var err1 = new Error('出错了！');
+// var err2 = new RangeError('出错了，变量超出有效范围！');
+// var err3 = new TypeError('出错了，变量类型无效！');
+
+// err1.message // "出错了！"
+// err2.message // "出错了，变量超出有效范围！"
+// err3.message // "出错了，变量类型无效！"
 
 
+// 除了 JavaScript 原生提供的七种错误对象，还可以定义自己的错误对象。
+// function UserError(message) {
+//   this.message = message || '默认信息';
+//   this.name = 'UserError';
+// }
+// UserError.prototype = new Error();
+// UserError.prototype.constructor = UserError;
+// 上面代码自定义一个错误对象UserError，让它继承Error对象。然后，就可以生成这种自定义类型的错误了
+
+// throw语句的作用是手动中断程序执行，抛出一个错误。
+
+var x = -1;
+if(x < 0){
+    throw new Error('x 必须为正数');
+}
+
+// throw也可以抛出自定义错误。
+// 实际上，throw可以抛出任何类型的值。也就是说，它的参数可以是任何值。
+
+// JavaScript 提供了try...catch结构，允许对错误进行处理，选择是否往下执行。
+// try代码块抛出错误（上例用的是throw语句），JavaScript 引擎就立即把代码的执行，转到catch代码块，或者说错误被catch代码块捕获了。catch接受一个参数，表示try代码块抛出的值。
+// catch代码块捕获错误之后，程序不会中断，会按照正常流程继续执行下去。
+  try {
+    throw "出错了";
+  } catch (e) {
+    console.log(111);
+  }
+  console.log(222);
+  // 111
+  // 222
+
+// try...catch结构允许在最后添加一个finally代码块，表示不管是否出现错误，都必需在最后运行的语句。
+
+// 下面是finally代码块用法的典型场景。
+openFile(); 
+
+try {
+  writeFile(Data);
+} catch(e) {
+  handleError(e);
+} finally {
+  closeFile();
+}
+// 上面代码首先打开一个文件，然后在try代码块中写入文件，如果没有发生错误，则运行finally代码块关闭文件；
+// 一旦发生错误，则先使用catch代码块处理错误，再使用finally代码块关闭文件。
+
+// 下面的例子充分反映了try...catch...finally这三者之间的执行顺序。
+
+function f() {
+  try {
+    console.log(0);
+    throw 'bug';
+  } catch(e) {
+    console.log(1);
+    return true; // 这句原本会延迟到 finally 代码块结束再执行
+    console.log(2); // 不会运行
+  } finally {
+    console.log(3);
+    return false; // 这句会覆盖掉前面那句 return
+    console.log(4); // 不会运行
+  }
+
+  console.log(5); // 不会运行
+}
+
+var result = f();
+// 0
+// 1
+// 3
+
+result
+// false
+
+// catch代码块之中，触发转入finally代码快的标志，不仅有return语句，还有throw语句。
+
+function f(){
+    try{
+        throw '出错啦';
+    }catch(e){
+        console.log('捕捉内部错误');
+        throw e;
+    }finally{
+        console.log('finally');
+        return false;
+    }
+}
+
+try{
+    f();
+}catch(e){
+    console.log('外面');
+}
+*/
 
 
