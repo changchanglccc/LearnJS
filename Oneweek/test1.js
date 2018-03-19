@@ -1014,3 +1014,154 @@ try{
 */
 
 
+/** 标准库 （略） */
+
+/** 面向对象编程（OOP） -----------------------------------------------*/
+
+/** 构造函数与new命令 */
+/*
+构造函数就是一个普通的函数，但是有自己的特征和用法。
+
+var Vehicle = function () {
+  this.price = 1000;
+};
+上面代码中，Vehicle就是构造函数。为了与普通函数区别，构造函数名字的第一个字母通常大写。
+
+构造函数的特点有两个:
+    函数体内部使用了this关键字，代表了所要生成的对象实例。
+    生成对象的时候，必须使用new命令。
+
+为了保证构造函数必须与new命令一起使用，
+一个解决办法是，构造函数内部使用严格模式，即第一行加上use strict。这样的话，一旦忘了使用new命令，直接调用构造函数就会报错。
+
+function Fubar(foo, bar){
+  'use strict';     // 函数内部的this不能指向全局对象，默认等于undefined,js不允许对undefined添加属性
+  this._foo = foo;
+  this._bar = bar;
+}
+
+Fubar()
+// TypeError: Cannot set property '_foo' of undefined
+
+另一个解决办法，构造函数内部判断是否使用new命令，如果发现没有使用，则直接返回一个实例对象。
+
+function Fubar(foo, bar) {
+  if (!(this instanceof Fubar)) {
+    return new Fubar(foo, bar);
+  }
+
+  this._foo = foo;
+  this._bar = bar;
+}
+
+Fubar(1, 2)._foo // 1
+(new Fubar(1, 2))._foo // 1
+
+// new命令的原理：
+使用new命令时，它后面的函数依次执行下面的步骤。
+    1.创建一个空对象，作为将要返回的对象实例。
+    2.将这个空对象的原型，指向构造函数的prototype属性。
+    3.将这个空对象赋值给函数内部的this关键字。
+    4.开始执行构造函数内部的代码。
+    5.也就是说，构造函数内部，this指的是一个新生成的空对象，所有针对this的操作，都会发生在这个空对象上。构造函数之所以叫“构造函数”，就是说这个函数的目的，就是操作一个空对象（即this对象），将其“构造”为需要的样子。
+
+如果构造函数内部有return语句，而且return后面跟着一个对象，new命令会返回return语句指定的对象；否则，就会不管return语句，返回this对象。
+
+// 另一方面，如果对普通函数（内部没有this关键字的函数）使用new命令，则会返回一个空对象。
+// 这是因为new命令总是返回一个对象，要么是实例对象，要么是return语句指定的对象
+
+// new.target
+函数内部可以使用new.target属性。如果当前函数是new命令调用，new.target指向当前函数，否则为undefined。
+使用这个属性，可以判断函数调用的时候，是否使用new命令。
+function f() {
+  if (!new.target) {
+    throw new Error('请使用 new 命令调用！');
+  }
+  // ...
+}
+
+f()     // Uncaught Error: 请使用 new 命令调用！
+
+//Object.create() 创建实例对象
+构造函数作为模板，可以生成实例对象。但是，有时拿不到构造函数，只能拿到一个现有的对象。
+我们希望以这个现有的对象作为模板，生成新的实例对象，这时就可以使用Object.create()方法。
+
+var person1 = {
+    name: 'Bob',
+    age: 38,
+    greeting: function(){
+        console.log('Hi, I\'m ' + this.name + '.');
+    }
+};
+
+var person2 = Object.create(person1);
+
+console.log(person2.name);
+console.log(person2.greeting());        //注意 console.log 里还有一个consoke.log， 这时候会有一个undefined的变量打印出来
+*********************************************************************************************************
+未完待续
+*/
+
+/* ====================  Udemy ES6 JS: The complete developer's Guide ========= */
+/** The forEach Helper --- Array helper Methods
+ 
+colors = ['red','blue','green'];
+colors.forEach(function(color){     //对于每一个数组中的元素， 都用forEach这个Iterator Function来做处理
+    console.log(color);
+});
+
+其效果等同于 用 for 循环来实现，但是forEach更直观，不用声明（var i）等多余的逻辑变量
+
+// Where to use forEach Helper???
+// 举例： gmail批量删除spam emails, 在Spam folder文件夹中， 勾选要删除的email，
+// 会把要删除的email的identity放入一个名为emails的array中，然后对这个数组用forEach来删除邮件
+
+emails.forEach(function(email){
+    deleteEmail(email);
+});
+//这里不用for loop是因为，for loop 写起来不简洁，而且跟forEach比起来也没有什么特别的地方
+*/
+
+/** The map Helper 
+// 使用map helper 来建一个新的数组，但是不更改原有数组
+//注意， return语句必须有
+var numbers = [1,2,3];
+var doubleNumbers = [];
+
+var doubled = numbers.map(function(number){
+    return number * 2;      //return 就会把执行后的数存在一个新的array中，必须有！
+    //number* 2;   没有return时，系统只会建一个[null,null,null]的数组
+});
+doubled;     //[2,4,6]
+// //等同于
+// for(var i = 0; i < numbers.length; i++){
+//     doubleNumbers.push(numbers[i] * 2);
+// }
+// doubleNumbers;  //[2,4,6] 
+
+var cars = [
+    {model: 'Buick', price:'Cheap'},
+    {model: 'Camero', price: 'Expensive'}
+];
+
+var price = cars.map(function(car){
+    return car.price;
+});
+
+console.log(price);
+
+//Where map is used?
+// Eg: webpage, rendering lots of data, like facebook, list ur friends posts(profile+words+...)from backend server
+// 不需要改变server端数据信息，就用map分到前端页面
+
+//practice；
+function pluck(array, property) {
+    var result = array.map(function(item){
+       return item[property]; 
+    });
+    return result;
+}
+
+var paints = [ { color: 'red' }, { color: 'blue' }, { color: 'yellow' }];
+console.log(pluck(paints, 'color'));
+*/
