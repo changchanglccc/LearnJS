@@ -1103,6 +1103,10 @@ console.log(person2.greeting());        //注意 console.log 里还有一个cons
 */
 
 /* ====================  Udemy ES6 JS: The complete developer's Guide ========= */
+/**
+ * Array Helper Methods: forEach + map + filter + find + every + some + reduce
+ */
+
 /** The forEach Helper --- Array helper Methods
  
 colors = ['red','blue','green'];
@@ -1165,3 +1169,78 @@ function pluck(array, property) {
 var paints = [ { color: 'red' }, { color: 'blue' }, { color: 'yellow' }];
 console.log(pluck(paints, 'color'));
 */
+
+/** The filter Helper   -- u wanna do any type of filter
+
+ var products = [
+    { name: 'cucumber', type: 'vegetable'},
+    { name: 'banana', type: 'fruit'},
+    { name: 'celery', type: 'vegetable'},
+    { name: 'orange', type: 'fruit'}
+ ];
+
+//filter: fruit returns true(add in); vegetable returns false(give it up)
+var filterd = products.filter(function(product){
+    return product.type === 'fruit';    //1) return!!! 2)判断true/false语句 3）如果用if语句，来return true,多此一举，所以要避免
+});
+
+console.log(filterd);
+//  // use for loop    -- 但是 将来别人看代码的时候，全是forloop不好读，所以不适合开发一个long-term project
+//  var fileterProducts = [];      //subset for products array, just store the product in type of fruit（不更改原数组）
+//  for(var i = 0; i < products.length; i ++){
+//     if(products[i].type === 'fruit'){
+//         fileterProducts.push(products[i]);
+//     }
+// }
+// console.log(fileterProducts);
+
+// more on filtering
+var products = [
+    { name: 'cucumber', type: 'vegetable', quantity: 0, price: 1 },
+    { name: 'banana', type: 'fruit', quantity: 10, price: 15 },
+    { name: 'celery', type: 'vegetable', quantity: 30, price: 8 },
+    { name: 'orange', type: 'fruit', quantity: 3, price: 5 }
+ ];
+
+ var filterd = products.filter(function(product){
+    return product.type === 'vegetable' 
+    && product.quantity > 0 
+    && product.price < 10;
+ });
+
+ console.log(filterd);
+
+ // When to filter?
+ // eg: 找出和新post相同id的comment  ==》 当处理相关的数据集的时候 + 在client 端，需要拿到一些条件过滤的数据
+ var post = {id: 4, title: 'New Post'};
+ var comments = [
+     { postId: 4, content: 'awesome post' },
+     { postId: 3, content: 'it was ok' },
+     { postId: 4, content: 'neat' },
+ ];
+
+ function commentForPost(post, comments){
+     return comments.filter(function(comment){
+         return comment.postId === post.id;
+     });
+ }
+ console.log(commentForPost(post, comments));
+
+// practice
+function reject(array, iteratorFunction) {
+    return array.filter(function(item){
+        return (! iteratorFunction(item));
+    });
+}
+
+var numbers = [10, 20, 30];
+var lessThanFifteen = reject(numbers, function(number){
+  return number > 15;
+}); 
+console.log(lessThanFifteen);
+
+*/
+
+/** The find Helper
+
+ */
