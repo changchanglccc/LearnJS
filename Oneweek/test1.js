@@ -904,6 +904,23 @@ storeData(tmp);
  * 不建议使用
  */
 
+/** 运算符 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /** 错误处理机制 */
 /*
 // 注意：null转为数值时为0，而undefined转为数值时为NaN。
@@ -1179,6 +1196,7 @@ obj.foo();
 *
 */
 
+/*
 // JavaScript 规定，每个函数都有一个prototype属性，指向一个对象。
 function Animal(name){
     this.name = name;
@@ -1198,10 +1216,150 @@ Animal.prototype.walk = function(){
 };
 
 cat1.walk();
+*/
+// console.log(Object.getPrototypeOf(Object.prototype));   //原型链的尽头就是null
+// 如果对象自身和它的原型，都定义了一个同名属性，那么优先读取对象自身的属性，这叫做“覆盖”（overriding）。
+
+// prototype对象有一个constructor属性，默认指向prototype对象所在的构造函数。
+// function P() {}
+// console.log(P.prototype.constructor === P); // true
+// 由于constructor属性定义在prototype对象上面，意味着可以被所有实例对象继承。
+
+/** 异步操作的模式 ES5
+ * 
+ * 回调函数 + 事件监听 + 发布/订阅 publish/subscribe pattern
+ * 
+ */
+
+ /** 异步操作的流程控制
+  * 
 
 
+// function async(arg, callback) {
+//     console.log('参数为 ' + arg +' , 1秒后返回结果');
+//     setTimeout(function () { callback(arg * 2); }, 1000);
+// }
+//   上面代码的async函数是一个异步任务，非常耗时，每次执行需要1秒才能完成，然后再调用回调函数。
+
+//如果有六个这样的异步任务，需要全部完成后，才能执行最后的final函数。请问应该如何安排操作流程？(嵌套执行 写起来麻烦 且难以维护)
+
+// 1) 串行执行：
+var items = [ 1, 2, 3, 4, 5, 6 ];
+var results = [];
+
+function async(arg, callback) {
+  console.log('参数为 ' + arg +' , 1秒后返回结果');
+  setTimeout(function () { callback(arg * 2); }, 1000);
+}
+
+function final(value) {
+  console.log('完成: ', value);
+}
+
+function series(item) {
+  if(item) {
+    async( item, function(result) {
+      results.push(result);
+      return series(items.shift());
+    });
+  } else {
+    return final(results[results.length - 1]);
+  }
+}
+
+series(items.shift());
+
+// 2) 并行执行
+// 但是问题在于如果并行的任务较多，很容易耗尽系统资源，拖慢运行速度。
+items.forEach(function(item) {      //forEach方法会同时发起六个异步任务，等到它们全部完成以后，才会执行final函数
+    async(item, function(result){
+        results.push(result);
+        if(results.length === items.length) {
+        final(results[results.length - 1]);
+        }
+    })
+});
+
+// 3)并行与串行的结合
+// 并行与串行的结合，就是设置一个门槛，每次最多只能并行执行n个异步任务，这样就避免了过分占用系统资源。
+
+var items = [ 1, 2, 3, 4, 5, 6 ];
+var results = [];
+var running = 0;
+var limit = 2;
+
+function async(arg, callback) {
+  console.log('参数为 ' + arg +' , 1秒后返回结果');
+  setTimeout(function () { callback(arg * 2); }, 1000);
+}
+
+function final(value) {
+  console.log('完成: ', value);
+}
+
+function launcher() {
+  while(running < limit && items.length > 0) {
+    var item = items.shift();
+    async(item, function(result) {
+      results.push(result);
+      running--;
+      if(items.length > 0) {
+        launcher();
+      } else if(running == 0) {
+        final(results);
+      }
+    });
+    running++;
+  }
+}
+
+launcher();
+// 上面代码中，最多只能同时运行两个异步任务。变量running记录当前正在运行的任务数，只要低于门槛值，就再启动一个新的任务，如果等于0，就表示所有任务都执行完了，这时就执行final函数。
+// 这段代码需要三秒完成整个脚本，处在串行执行和并行执行之间。通过调节limit变量，达到效率和资源的最佳平衡。
+
+*/
+
+/** promise 对象 
+Promise 对象通过自身的状态，来控制异步操作。Promise 实例具有三种状态。
+    异步操作未完成（pending）
+    异步操作成功（resolved）
+    异步操作失败（rejected）
+
+这三种的状态的变化途径只有两种。
+    从“未完成”到“成功”
+    从“未完成”到“失败”
+Promise 实例的状态变化只可能发生一次。
+
+异步操作成功，Promise 实例传回一个值（value），状态变为resolved。
+异步操作失败，Promise 实例抛出一个错误（error），状态变为rejected。
 
 
+var p1 = new Promise(function (resolve, reject) {
+    resolve('成功');
+});
+p1.then(console.log, console.error);
+// "成功"
+
+var p2 = new Promise(function (resolve, reject) {
+    reject(new Error('失败'));
+});
+p2.then(console.log, console.error);
+// Error: 失败
+
+// p1和p2都是Promise 实例，它们的then方法绑定两个回调函数：
+// 成功时的回调函数console.log，失败时的回调函数console.error（可以省略）。p1的状态变为成功，p2的状态变为失败，
+// 对应的回调函数会收到异步操作传回的值，然后在控制台输出。
+
+// then方法可以链式使用。
+p1
+  .then(step1)
+  .then(step2)
+  .then(step3)
+  .then(
+    console.log,
+    console.error
+  );
+*/
 
 
 
@@ -1347,3 +1505,57 @@ console.log(lessThanFifteen);
 /** The find Helper
 
  */
+
+ /** Promises */
+//  terminology of promise
+/* 3 state of promises:
+1) 'unresolved': waiting for sth to finish
+2) 'resolved': sth finished and it all went ok
+3) 'rejected': sth finished and sth went bad
+
+2-1) promise--(everything worked out)--> resolved --->then （callback）
+3-1) promise--(sth bad happended) --> rejected --> catch(callbacks)
+
+// create Promises
+promise = new Promise((resolve, reject) => {    //在浏览器 window里面写
+    // resolve();
+    reject();
+});
+
+promise
+    .then(() => {
+        console.log('finally finished!');       //resolve() + then()
+    })
+    .then(() => console.log(' i was also ran!'))     //then chain 可以的，这样写格式也是对的（去掉只包含一行内容的{}）
+    .catch(() => console.log('Oh oh'));     //用reject() 才行
+*/
+/** asynchronous code: 异步编程部分！！！ */
+
+
+promise = new Promise((resolve, reject) => {  
+    //simulating some long running process here
+    setTimeout(() => {
+        resolve();
+    }, 3000);       //wait 3 s 
+    // reject();
+});
+
+promise
+    .then(() => {
+        console.log('finally finished!');       
+    })
+    .then(() => console.log(' i was also ran!'))     
+    .catch(() => console.log('Oh oh'));     
+
+// ------------      ----------------
+var p1 = new Promise(function (resolve, reject) {
+    resolve('成功');
+});
+p1.then(console.log, console.error);
+    // "成功"
+    
+var p2 = new Promise(function (resolve, reject) {
+    reject(new Error('失败'));
+});
+p2.then(console.log, console.error);
+    // Error: 失败
