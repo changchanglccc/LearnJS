@@ -1102,6 +1102,109 @@ console.log(person2.greeting());        //注意 console.log 里还有一个cons
 未完待续
 */
 
+/** 面向对象编程 OOP */
+/** this 关键字 ：总返回一个对象---》 简单说： this就是属性或方法“当前”所在的对象
+ * 
+ * 由于对象的属性可以赋给另一个对象，所以属性所在的当前对象是可变的，即this的指向是可变的。
+
+ 
+
+var A = {
+    name : 'Adam',
+    describe: function(){
+        return 'name : ' + this.name;
+    }
+};
+var B = {
+    name : 'Bob'
+};
+
+B.describe = A.describe
+console.log(B.describe());      //Name: Bob;   B的describe方法，B.describe()!!!
+// A.describe属性被赋给B，于是B.describe就表示describe方法所在的当前对象是B，所以this.name就指向B.name。
+
+function f(){
+    return 'Name: ' + this.name;
+}
+
+var A = {
+    name : 'Adam',
+    describe: f
+};
+var B = {
+    name : 'Bob',
+    describe:f
+};
+
+console.log(A.describe());
+console.log(B.describe());      //函数f内部使用了this关键字，随着f所在的对象不同，this的指向也不同。
+
+
+//只要函数被赋给另一个变量，this的指向就会变。
+
+// var A = {
+//     name: '张三',
+//     describe: function () {
+//       return '姓名：'+ this.name;
+//     }
+//   };
+
+// var name = '李四';
+
+// var f= A.describe;
+// console.log(f()); // "姓名：李四"
+
+// function f() {
+//     console.log(this === window);
+//   }
+// f() // true
+
+var obj = {
+    foo: function(){
+        console.log(this);
+    }
+};
+obj.foo();
+
+避免多层this:
+绑定this的方法: call, apply, bind 来切换/固定this的指向
+略。。。以后再看
+*
+*
+*
+*
+*
+*
+*
+*
+*/
+
+// JavaScript 规定，每个函数都有一个prototype属性，指向一个对象。
+function Animal(name){
+    this.name = name;
+}
+Animal.prototype.color = 'yellow';  
+//构造函数Animal的prototype属性，就是实例对象cat1和cat2的原型对象。原型对象上添加一个color属性，结果，实例对象都共享了该属性。
+var cat1 = new Animal('A');
+var cat2 = new Animal('B');
+// cat2.color = 'black';
+console.log(cat1.color + ', ' + cat2.color);
+// 如果实例对象自身就有某个属性或方法，它就不会再去原型对象寻找这个属性或方法。
+
+// 总结一下，原型对象的作用，就是定义所有实例对象共享的属性和方法。这也是它被称为原型对象的原因，而实例对象可以视作从原型对象衍生出来的子对象。
+
+Animal.prototype.walk = function(){
+    console.log(this.name + ' is walking');
+};
+
+cat1.walk();
+
+
+
+
+
+
+
 /* ====================  Udemy ES6 JS: The complete developer's Guide ========= */
 /**
  * Array Helper Methods: forEach + map + filter + find + every + some + reduce
