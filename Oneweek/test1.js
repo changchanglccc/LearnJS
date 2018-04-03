@@ -539,11 +539,42 @@ console.log(arr); // ["a", "b"]
 
 // 清空数组的一个有效方法，就是将length属性设为0。
 
+var a = [];
+
+a['p'] = 'abc';
+a.length // 0
+
+a[2.1] = 'abc';
+a.length // 0
+上面代码将数组的键分别设为字符串和小数，结果都不影响length属性。
+因为，length属性的值就是等于最大的数字键加1，而这个数组没有整数键，所以length属性保持为0。
+
+var arr = [];
+arr[-1] = 'a';
+arr[Math.pow(2, 32)] = 'b';
+
+arr.length // 0
+arr[-1] // "a"
+arr[4294967296] // "b"
+上面代码中，我们为数组arr添加了两个不合法的数字键，结果length属性没有发生变化。
+这些数字键都变成了字符串键名。最后两行之所以会取到值，是因为取键值时，数字键名会默认转为字符串。
+
+// in 是用来检查某个键名是否存在的运算符，适用于对象和数组
 var arr = [ 'a', 'b', 'c' ];
 2 in arr  // true
 '2' in arr // true
 4 in arr // false
 // 上面代码表明，数组存在键名为2的键。由于键名都是字符串，所以数值2会自动转成字符串
+
+var arr = [ 'a', 'b', 'c' ];
+console.log('a' in arr);  // false  
+
+数组是一组特殊的对象，它的特殊性体现在，它的键名是按次序排列的一组整数（0，1，2…）。
+
+var arr = ['a', 'b', 'c'];
+
+Object.keys(arr)
+// ["0", "1", "2"]
 
 注意，如果数组的某个位置是空位，in运算符返回false。
 
@@ -554,7 +585,8 @@ arr[100] = 'a';
 1 in arr // false
 // 上面代码中，数组arr只有一个成员arr[100]，其他位置的键名都会返回false。
 
-// for...in不仅会遍历数组所有的数字键，还会遍历非数字键.所以不推荐for...in遍历数组
+
+// for...in不仅会遍历数组所有的数字键，还会遍历非数字键. 所以不推荐for...in遍历数组
 var arr = [1,2,3];
 arr.foo = 'doo';
 
@@ -563,7 +595,7 @@ for(var k in arr){
 }
 // 所以不推荐for...in遍历数组； 
 
-// 可以考虑 for循环或者while循环来遍历数组
+// 可以考虑 for循环或者while循环来遍历数组，纯比较数字时，但是感觉后面es6的时候会用到forEach() 方法
 
 var colors = ['red','green','blue'];
 colors.forEach(function(color){
@@ -608,7 +640,10 @@ console.log(Object.keys(a));
 
 //类似数组的对象：如果一个对象的所有键名都是正整数或零，并且有length属性，那么这个对象就很像数组，语法上称为“类似数组的对象”（array-like object）。
 //对象obj没有数组的push方法，使用该方法就会报错。
-// 类似数组的对象”的根本特征，就是具有length属性。只要有length属性，就可以认为这个对象类似于数组。但是有一个问题，这种length属性不是动态值，不会随着成员的变化而变化。
+
+// 类似数组的对象”的根本特征，就是具有length属性！！！！
+
+// 只要有length属性，就可以认为这个对象类似于数组。但是有一个问题，这种length属性不是动态值，不会随着成员的变化而变化。
 var obj = {
     length: 0,
 };
@@ -905,12 +940,40 @@ storeData(tmp);
  */
 
 /** 运算符 */
+/*
+只要有一个运算子是字符串，加法运算符就变成连接运算符，返回连接后的字符串。
+加法运算符是在运行时决定，到底是执行相加，还是执行连接。
+也就是说，运算子的不同，导致了不同的语法行为，这种现象称为“重载”（overload）。由于加法运算符存在重载，可能执行两种运算，使用的时候必须很小心。
+'3' + 4 + 5 // "345"
+3 + 4 + '5' // "75"     //由于从左到右的运算次序，字符串的位置不同会导致不同的结果。
+// 除了加法运算符，其他算数运算符都不会出现重载，都会把字符串转为数值再计算
 
+// 如果运算子是对象，必须先转成原始类型的值（使用valueOf方法 + toString方法），然后再相加。 注意 valueOf一般返回对象本身
+// 所以我们可以自己定义 valueOf或者toString方法 ， 实现运算
 
+var obj = {
+    valueOf: function(){
+        return 1;
+    },
+    toString: function(){
+        return 'Hello';
+    }
 
+};
 
+console.log(obj.toString() + 2);    //3, 因为valueOf会先与toString 执行
 
+// 这里有一个特例，如果运算子是一个Date对象的实例，那么会优先执行toString方法。
+var obj = new Date();
+obj.valueOf = function () { return 1 };
+obj.toString = function () { return 'hello' };
 
+obj + 2 // "hello2
+
+// 余数运算符 % ； 需要注意的是，运算结果的正负号由第一个运算子的正负号决定。
+-1 % 2 // -1
+1 % -2 // 1
+*/
 
 
 
@@ -1529,7 +1592,7 @@ promise
     .then(() => console.log(' i was also ran!'))     //then chain 可以的，这样写格式也是对的（去掉只包含一行内容的{}）
     .catch(() => console.log('Oh oh'));     //用reject() 才行
 */
-/** asynchronous code: 异步编程部分！！！ */
+/** asynchronous code: 异步编程部分！！！ 
 
 
 promise = new Promise((resolve, reject) => {  
@@ -1559,3 +1622,11 @@ var p2 = new Promise(function (resolve, reject) {
 });
 p2.then(console.log, console.error);
     // Error: 失败
+*/
+
+// var arr = [ 'a', 'b', 'c' ];
+// arr.forEach(function(i){
+//     console.log(i);
+// });
+
+// console.log(arr.keys);  // false
