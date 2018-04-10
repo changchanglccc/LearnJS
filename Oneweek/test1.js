@@ -1314,8 +1314,6 @@ console.log([1] == '1');    //???
     
 */  
 
-
-
 /** 错误处理机制 */
 /*
 // 注意：null转为数值时为0，而undefined转为数值时为NaN。
@@ -1404,7 +1402,7 @@ var result = f();
 result
 // false
 
-// catch代码块之中，触发转入finally代码快的标志，不仅有return语句，还有throw语句。
+// catch代码块之中，触发转入finally代码快的标志，不仅有return语句，还有throw语句！！！
 
 function f(){
     try{
@@ -1423,7 +1421,19 @@ try{
 }catch(e){
     console.log('外面');
 }
+
+// 捕捉内部错误
+// finally
+
+// 上面代码中，进入catch代码块之后，一遇到throw语句，就会去执行finally代码块，
+// 其中有return false语句，因此就直接返回了，不再会回去执行catch代码块剩下的部分了。
+
+// 注意：try代码块抛出错误（上例用的是throw语句），JavaScript 引擎就立即把代码的执行，转到catch代码块
 */
+
+
+
+
 
 
 /** 标准库 （略） */
