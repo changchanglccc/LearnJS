@@ -1429,11 +1429,33 @@ try{
 // 其中有return false语句，因此就直接返回了，不再会回去执行catch代码块剩下的部分了。
 
 // 注意：try代码块抛出错误（上例用的是throw语句），JavaScript 引擎就立即把代码的执行，转到catch代码块
+
+// do...while循环是有分号的。
+
+// 所有的++运算符都可以用+= 1代替。
+
+// switch...case 结构
+function doAction(action) {
+    var actions = {
+      'hack': function () {
+        return 'hack';
+      },
+      'slash': function () {
+        return 'slash';
+      },
+      'run': function () {
+        return 'run';
+      }
+    };
+  
+    if (typeof actions[action] !== 'function') {
+      throw new Error('Invalid action.');
+    }
+  
+    return actions[action]();
+  }
+//   因此，建议switch...case结构可以用对象结构代替。
 */
-
-
-
-
 
 
 /** 标准库 （略） */
