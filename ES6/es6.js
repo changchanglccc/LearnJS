@@ -76,11 +76,13 @@ console.log(pluck(paints, 'color'));
  ];
 
 //filter: fruit returns true(add in); vegetable returns false(give it up)
+
 var filterd = products.filter(function(product){
     return product.type === 'fruit';    //1) return!!! 2)判断true/false语句 3）如果用if语句，来return true,多此一举，所以要避免
 });
 
 console.log(filterd);
+
 //  // use for loop    -- 但是 将来别人看代码的时候，全是forloop不好读，所以不适合开发一个long-term project
 //  var fileterProducts = [];      //subset for products array, just store the product in type of fruit（不更改原数组）
 //  for(var i = 0; i < products.length; i ++){
@@ -139,7 +141,73 @@ console.log(lessThanFifteen);
 
 /** The find Helper
 
+    优点： 不需要遍历整个数组 就能找到自己寻找的元素
+    缺点： find helper只可以找到第一次出现的某个元素并且返回
+
+        var users=[
+            { name: 'Jill'},
+            { name: 'Alex'},
+            { name: 'Bill'},
+            // { name: 'Alex'},    //这个不会被find helper找到的
+        ];
+
+        users.find(function(user){
+            return user.name === 'Alex';    // 必须有 return！
+            // if(user.name === 'Alex'){   //和这个一样 但是这个写起来繁琐
+            //     return true;
+            // }
+        });
+
+        console.log(user);
+
+        // var user;
+
+        // for(var i= 0;i < users.length; i++){        //需要遍历整个组 来得到这个名为Alex的对象
+        //     if(users[i].name === 'Alex'){
+        //         user = users[i];
+        //         break;  //表示一旦找到Alex就停止搜索 省的浪费时间
+        //     }
+        // }
+
+        example1:
+            function Car(model){
+                this.model = model;
+            }
+
+            var cars =[
+                new Car('Buick'),
+                new Car('Camaro'),
+                new Car('Focus')
+            ];
+
+            cars.find(function(car){
+                return car.model==='Focus';
+            });
+
+
+
+var posts = [
+    { id:1, title:'new post'},
+    { id:2, title:'old post'}
+];
+
+var comment = { postId:1, content: 'Great Post'};
+
+function postForComment(posts, comment){
+    return posts.find(function(post){       //why Cannot read property 'find' of undefined???
+        return post.id === comment.postId;
+    });
+}
+
+console.log(postForComment(posts.comment));
  */
+
+
+/** The Every Helper & the Some Helper
+
+*/
+
+
 
  /** Promises */
 //  terminology of promise
