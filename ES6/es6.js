@@ -273,22 +273,72 @@ console.log(postForComment(posts.comment));
         }else{
             //show an error message
         }
-
-
 */
 
+/** The reduce helper
+        sample1:
+            var numbers = [10,20,30];
+            var sum = 0;
+
+            for(var i = 0; i < numbers.length; i++){
+                sum += numbers[i];
+            }
+
+            console.log(sum);
+
+            console.log(numbers.reduce(function(sum, number){   //sum takes the initial value
+                return sum + number;
+            }, 0));     // 0 is initial value
+        
+        sample2:
+            var primaryColors = [
+                { color: "red"},
+                { color: "green"},
+                { color: "blue"}
+            ];
+
+            var now = primaryColors.reduce(function(previous, primaryColor){        //use previous/accumulator
+                previous.push(primaryColor.color);
+
+                return previous;    // 记得return关键字！！！
+            }, []);     // 起始是个空数组
+
+            console.log(now);
+
+        sample3:
+        // reduce有很多用途 不止是做sum， 举例： 判断字符串中的括号是否平衡(JOB ~~~~)
+        // 注意 reduce是针对一个array的，所以要把字符串转换为array
+
+        function balancedParens(string){
+            return !string.split("").reduce(function(previous, char){    // 为了让他返回的是个boolean，加一个！
+                if(previous < 0){ return previous;} //要求不能以后括号开头
+                if(char === "("){ return ++previous;}
+                if(char === ")"){ return --previous;}
+
+                return previous;
+            }, 0);
+        }
+
+        console.log(balancedParens("((((asfqeq)"));   // return 3 which means unbalanced / false
+        console.log(balancedParens("(())"));    //true
+        console.log(balancedParens(")("));    //false, 
 
 
-
-
-
-
-
-
-
-
-
-
+    // hardmode question: Write a function that will remove all duplicate values from an array: use reduce and find helper
+        function unique(array) {
+            return array.reduce(function(previous, item){
+                if(!previous.find(function(i){
+                    return i === item;
+                })){
+                    previous.push(item);
+                }
+                return previous;
+            }, []);
+        }
+        
+        var numbers = [1,1,2,3,4,4];
+        console.log(unique(numbers));
+*/
 
 
 
