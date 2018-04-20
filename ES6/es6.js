@@ -341,10 +341,28 @@ console.log(postForComment(posts.comment));
 */
 
 
+/** Const / Let 
+    ES6 中 不再使用var 来声明变量，会使用Const 或者 Let！
+
+    Const: 常量， 其值永远不会改变
+    Let: 变量，值可以改变
 
 
 
+*/
 
+// var name = "Jill";
+// var title = "Software Engineer";
+var hourlyWage = 40;
+
+//ES6
+const name = "Jill";
+let title = "Software Engineer"; 
+title = "Senior Software Engineer";
+let hourlyWage = 45;
+// name = "Bill";       // error, cannot assign new value to a const
+// console.log(name);
+console.log(title);
 
 
 
