@@ -204,8 +204,134 @@ console.log(postForComment(posts.comment));
 
 
 /** The Every Helper & the Some Helper
+ * sample1:
+        var computers=[
+            { name: 'Apple', ram: 24},
+            { name: 'Compaq', ram: 4},
+            { name: 'HP', ram: 32},
+        ];
+
+        computers.every(function(computer){     // 更简洁 易懂
+            return computer.ram > 16;   //1. return关键字 2. 查看是不是所有的computer的ram都>16  
+        });
+
+        computers.some(function(computer){
+            return computer.ram >16;    //1. return关键字!!! 2. 查看是不是存在的computer的ram都>16 
+        });
+        // var allComputersCanRunProgram = true;
+        // var onlySomeComputersCanRunProgram = false;
+
+        // for(var i = 0; i < computers.length; i ++){
+        //     var computer = computers[i];
+
+        //     if(computer.ram < 16){
+        //         allComputersCanRunProgram = false;
+        //     } else{
+        //         onlySomeComputersCanRunProgram = true;
+        //     }
+        // }
+
+    sample2:
+        var names = [
+            "Alexandria",
+            "Matthew",
+            "Joe"
+        ];
+
+        names.every(function(name){
+            return name.length > 4;
+        });
+
+        names.some(function(name){
+            return name.length > 4;
+        });
+    
+
+    //practice 当验证一个表格的时候，有username，有passport， 有birthday等一系列的数据字段进来，用every helper就很好
+        function Field(value){
+            this.value = value;
+        }
+
+        Field.prototype.validate = function(){
+            return this.value.length > 0;
+        }
+
+        var username = new Field("BigGirl");
+        var password = new Field("my_password");
+        var birthday = new Field("10/10/2010");
+
+        // console.log(username.validate() && password.validate());     //为避免&& 每一个字段 所以选用every helper
+
+        var fields = [username, password, birthday];
+
+        var formIsvalid = fields.every(function(field){
+            return field.validate();
+        });         // console.log(formIsvalid);
+
+        if(formIsvalid){
+            //allow user to submit!
+        }else{
+            //show an error message
+        }
+
 
 */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
