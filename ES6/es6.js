@@ -342,34 +342,62 @@ console.log(postForComment(posts.comment));
 
 
 /** Const / Let 
-    ES6 中 不再使用var 来声明变量，会使用Const 或者 Let！
+    ES6 中 不再使用var 来声明变量，会使用Const 或者 Let！ 会使代码更易读
 
-    Const: 常量， 其值永远不会改变
+    Const: 常量， 其值永远不会改变     //读别人代码时， 可以放心的知道这个值的意义，并且它不会改变
     Let: 变量，值可以改变
 
+        // var name = "Jill";
+        // var title = "Software Engineer";
+        var hourlyWage = 40;
 
+        //ES6
+        const name = "Jill";
+        let title = "Software Engineer"; 
+        title = "Senior Software Engineer";
+        let hourlyWage = 45;
+        // name = "Bill";       // error, cannot assign new value to a const
+        // console.log(name);
+        console.log(title);
+
+    // what Const / Let solve...
 
 */
 
-// var name = "Jill";
-// var title = "Software Engineer";
-var hourlyWage = 40;
+/** Template strings
+ * 
+ * Sample1：
+        function getMessage(){
+            // const year = new Date().getFullYear();
+            // // return "The year is " + year;   //es5
+            // return `The year is ${year + 1}`;   //ES6 template string, 改双引号为back ticks
+            return `The year is ${ new Date().getFullYear() }`;
 
-//ES6
-const name = "Jill";
-let title = "Software Engineer"; 
-title = "Senior Software Engineer";
-let hourlyWage = 45;
-// name = "Bill";       // error, cannot assign new value to a const
-// console.log(name);
-console.log(title);
+            //所有的合法的js表达式 都可以放到${}这个里面！
+        }
+
+        console.log(getMessage());
+
+    sample2：
+        mydata = {
+            device_id: '001',
+            guid: '1234',
+            username: 'jenny'
+        }
+
+        function show(data){
+            return `device_id: ${data.device_id}, guid: ${data.guid}, username: ${data.username}.`;
+        }
+
+        console.log(show(mydata));
 
 
+        const year = 2016;
+        const yearMessage = `The year is ${year}`;  
+        // const yearMessage = `${year}`;  //NO！！！注意 如果只想把year的值给yearMessage，不要“The year is ”这串文字，那么就直接用year赋值就行
 
 
-
-
-
+ */
 
 
 
