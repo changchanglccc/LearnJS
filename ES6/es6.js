@@ -425,7 +425,7 @@ console.log(postForComment(posts.comment));
     //     return 2 * number;
     // });
     -----------------------
-    
+
     //When to use arrow function
 
     const team = {
@@ -440,6 +440,102 @@ console.log(postForComment(posts.comment));
     }
     console.log(team.teamSummary());
 */
+
+/** Enhanced Object Literals
+ * 
+    // Sample： bookstore
+        function createBookShop(inventory){
+            return {
+                // inventory: inventory,   // what we pass into this funtion
+                // inventoryValue: function(){
+                //     return this.inventory.reduce((total,book) => total + book.price,0);
+                // },
+                // priceForTitle: function(title){
+                //     return this.inventory.find(book => book.title === title).price;
+                // }
+
+                inventory,  //es6
+                inventoryValue(){   // Enhanced Object Literals(去掉function，直接写在属性后面 当成一个function)
+                        return this.inventory.reduce((total,book) => total + book.price,0);
+                },
+                priceForTitle(title){
+                    return this.inventory.find(book => book.title === title).price;
+                }
+            };
+        }
+
+
+        const inventory = [
+            { title: 'Harry Potter', price: 10},
+            { title: 'Javascript DOM', price: 15}
+        ]
+
+        const bookShop = createBookShop(inventory);
+
+        console.log(bookShop.inventoryValue());
+        console.log();
+        console.log(bookShop.priceForTitle('Harry Potter'));
+
+    sample2:
+        function saveFile(url, data){
+            // $.ajax({ method: 'POST', url: url, data: data });
+            // $.ajax({ method: 'POST', url, data });
+            $.ajax({ 
+                url, 
+                data, 
+                method: 'POST' 
+            });
+        }
+
+        const url = "http://fileupload.com";
+        const data = { color: 'red'};
+
+        saveFile(url, data);
+
+ */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
