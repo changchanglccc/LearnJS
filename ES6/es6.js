@@ -494,19 +494,55 @@ console.log(postForComment(posts.comment));
 
  */
 
+/** Default function arguments 
+ *  作用： 就是设置默认的函数参数值，以防 有时调用函数的时候，没有传递相应的参数
+ *
+        function makeAjexRequest(url, method = 'GET'){      //可在后面直接给出
+            // if(!method){    //如果没给具体的method， 默认为GET
+            //     method = 'GET';
+            // }
+
+            return method;
+            // logic to make the request
+
+        }
+
+        console.log(makeAjexRequest('google.com', null));   // null 可以消除默认值； 如果用undefined，还会取默认的GET‘
+        console.log(makeAjexRequest('google.com', 'POST'));
 
 
+    // use cases of default function
+        function User(id){
+            this.id = id;
+        }
 
+        console.log(new User(2));
 
+        function generateId(){
+            return Math.random() * 9999;
+        }
 
+        // 写法一
+        // function createAdminUser(user){
+        //     user.admin = true;
 
+        //     return user;
+        // }
 
+        // 写法二
+        function createAdminUser(user = new User(generateId())){
+            user.admin = true;
 
+            return user;
+        }
 
+        // console.log(createAdminUser(new User(generateId())));   // 写起来太长了 只想写 createAdminUser()
+        console.log(createAdminUser()); //写法二
 
-
-
-
+        //写法三
+        const user = new User(generateId());
+        console.log(createAdminUser(user));
+*/
 
 
 
