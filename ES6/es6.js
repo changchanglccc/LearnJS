@@ -395,22 +395,51 @@ console.log(postForComment(posts.comment));
         const year = 2016;
         const yearMessage = `The year is ${year}`;  
         // const yearMessage = `${year}`;  //NO！！！注意 如果只想把year的值给yearMessage，不要“The year is ”这串文字，那么就直接用year赋值就行
-
-
  */
 
+/** Fat Arrow Functions 
+
+    // const add = function(a, b){ //es5
+    //     return a + b;
+    // }
 
 
+    const add = (a, b) => { //es6, use => instead of function key word
+        return a + b;
+    }
+    ---------------------
 
+    // 如果 function里面只有一个js短语句，则可以这样简写
+    const add = (a, b) => a + b;
+    console.log(add(1,2));
 
+    // const double = number => {  //如果函数参数只有一个 可以省去（）
+    //     return 2 * number;
+    // };
+    const double = number => 2 * number;
+    console.log(double(10));
 
+    const numbers = [1,2,3];
+    numbers.map(number => 2 * number);  //可以简写成这样
+    // numbers.map(function(number){
+    //     return 2 * number;
+    // });
+    -----------------------
+    
+    //When to use arrow function
 
-
-
-
-
-
-
+    const team = {
+        members: ['jane', 'bill'],
+        teamName: 'Superem',
+        teamSummary: function(){
+            // this === team(因为=>)
+            return this.members.map(member =>{
+                return `${member} is on ${team.teamName}`;  //team.teamName == this.teamName
+            });
+        }
+    }
+    console.log(team.teamSummary());
+*/
 
 
 
