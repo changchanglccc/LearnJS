@@ -545,6 +545,64 @@ console.log(postForComment(posts.comment));
 */
 
 
+/* Rest and Spread Operator
+
+// Capturing argument with rest and Spread
+
+    //rest operator : gather item together
+
+    function addNumbers(...numbers){    // (rest operator)... means putting arguments into an array named numbers
+      return numbers.reduce((sum, number) => {
+        return sum + number;
+      }, 0);
+    }
+
+    console.log(addNumbers(1,2,3,4,5,6,7,8));
+
+    // spread operator : join the arguments from array together []
+
+    const defaultColors = ['red', 'green'];
+    const userFavoriteColors = ['orange', 'yellow'];
+    const fallColors = ['fire red', 'fall orange'];
+
+    var result = defaultColors.concat(userFavoriteColors);    // these two arrats should merge together , need to check again
+
+    console.log(result);
+    console.log(defaultColors);
+
+    // []: create a new array, and use ... to put every item into it
+    console.log(['blue',...fallColors,...defaultColors, ...userFavoriteColors]);
+
+    //------------- example2
+
+    function validateShoppingList(...items) {
+      if(items.indexOf('milk') < 0){
+        // console.log(items.indexOf('milk')); //-1
+        return ['milk', ...items];
+
+      }
+      return items;
+    }
+    console.log(validateShoppingList('oranges', 'bread', 'eggs'));
+
+    //-------------- example3
+
+    const MathLibrary = {
+      // calculateProduct(a, b){   // case: wanna change the function name to "multify", but a lot of user use this library now
+      //   return a * b;
+      // },
+      calulareProduct(...rest){
+        console.log(' Please use the multify method instead');
+        return this.multify(...rest);
+      }
+
+      multify(a,b){
+        return a * b;
+      }
+    }
+*/
+
+
 
 
 
