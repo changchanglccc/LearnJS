@@ -559,7 +559,7 @@ console.log(postForComment(posts.comment));
 
     console.log(addNumbers(1,2,3,4,5,6,7,8));
 
-    // spread operator : join the arguments from array together []
+    // spread operator : join the arguments from array together [], 把元素全部从数组中取出 
 
     const defaultColors = ['red', 'green'];
     const userFavoriteColors = ['orange', 'yellow'];
@@ -576,7 +576,7 @@ console.log(postForComment(posts.comment));
     //------------- example2
 
     function validateShoppingList(...items) {
-      if(items.indexOf('milk') < 0){
+      if(items.indexOf('milk') < 0){        //如果 milk不在shopping list中
         // console.log(items.indexOf('milk')); //-1
         return ['milk', ...items];
 
@@ -588,7 +588,7 @@ console.log(postForComment(posts.comment));
     //-------------- example3
 
     const MathLibrary = {
-      // calculateProduct(a, b){   // case: wanna change the function name to "multify", but a lot of user use this library now
+      // calculateProduct(a, b){   // case: wanna change the function name to "multify", but a lot of users use this library now
       //   return a * b;
       // },
       calulareProduct(...rest){
