@@ -602,33 +602,84 @@ console.log(postForComment(posts.comment));
     }
 */
 
+/** Chapter 14: Destructuring 解构
+
+// destructing array arguments
+var saveFiled = {
+	extension: 'jpg',
+    name: 'repost',
+    size: 14040
+};
+
+function fileSummary1(file){
+	return `The file ${file.name}.${file.extension} is of size ${file.size}`;
+
+}
+
+console.log(fileSummary1(saveFiled));
+
+function fileSummary({name, extension, size}, {color}){
+	return `${color} The file ${name}.${extension} is of size ${size}`;
+
+}
+
+console.log(fileSummary(saveFiled, {color: 'red'}));
+
+// destruct array
+const companies = [
+	'Google',
+	'Facebook',
+	'Uber'
+];
+
+const [ name, name1, name2, name4 ] = companies;
+console.log(name);
+console.log(name1);
+console.log(name2);
+console.log(name4); //just be undefined, without error
+
+//const [ name ] = companies; = const firstCompany = companies[0];
+
+// destructing a property, we use {}; // destructing an element , we use []
+// 	 const {length} = companies;
 
 
+const [name, ...rest] = companies;
+console.log(...rest);
 
 
+//Destructing Arrays and Objects *at the same time*
+
+const companies = [
+	{name : 'Google', location: 'Mountain view'},
+	{name : 'Facebook', location: 'Menlo'},
+	{name : 'Uber', location: 'Dt'},,
+];
+
+// var location = companies[0].location;
+const [location] = companies;       //{name : 'Google', location: 'Mountain view'},
+const [{loaction}] = companies;     //Mountain view
 
 
+const Google = {
+	locations: ['Mountain','Park','DT']
+};
+
+// const {loaction} = Google;  // undefined, coz we use locations above!!!
+// console.log(loaction);
+const {locations} = Google;
+console.log(locations[0]);
+
+const {locations: [location]} = Google;     // :( , i wont use it
+console.log(location);
+
+// when we use destruction
+function xx({xx,xx,xx,xx,xx}){}     //use an object as argument, so we cannot worry about the order of those arguments
+
+ */
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+/** classes */
 
 
 
